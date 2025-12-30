@@ -1,0 +1,1584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Devadath Pillai | ML Researcher & Developer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Sora:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0a0b;
+            --bg-secondary: #111113;
+            --bg-tertiary: #1a1a1d;
+            --text-primary: #f5f5f7;
+            --text-secondary: #a1a1a6;
+            --text-muted: #6e6e73;
+            --accent: #00d4aa;
+            --accent-dim: rgba(0, 212, 170, 0.15);
+            --accent-glow: rgba(0, 212, 170, 0.4);
+            --border: rgba(255, 255, 255, 0.08);
+            --gradient-1: linear-gradient(135deg, #00d4aa 0%, #00a3ff 100%);
+            --font-display: 'Instrument Serif', Georgia, serif;
+            --font-body: 'Sora', -apple-system, sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            font-size: 16px;
+            overflow-x: hidden;
+        }
+
+        /* Noise texture overlay */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+            opacity: 0.03;
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            padding: 1.5rem 3rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(10, 10, 11, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .logo {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            font-weight: 400;
+            color: var(--text-primary);
+            text-decoration: none;
+            letter-spacing: -0.02em;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 400;
+            letter-spacing: 0.03em;
+            text-transform: uppercase;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 8rem 3rem 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 80%;
+            height: 150%;
+            background: radial-gradient(ellipse at center, var(--accent-dim) 0%, transparent 60%);
+            pointer-events: none;
+            animation: pulse 8s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.1); }
+        }
+
+        .hero-content {
+            max-width: 900px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-label {
+            font-size: 0.8rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+            font-weight: 500;
+        }
+
+        .hero h1 {
+            font-family: var(--font-display);
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 400;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.03em;
+        }
+
+        .hero h1 em {
+            font-style: italic;
+            color: var(--accent);
+        }
+
+        .hero-description {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin-bottom: 2.5rem;
+            font-weight: 300;
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 3rem;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .stat {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            letter-spacing: -0.02em;
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        /* Sections */
+        section {
+            padding: 6rem 3rem;
+            position: relative;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: baseline;
+            gap: 1rem;
+            margin-bottom: 3rem;
+        }
+
+        .section-number {
+            font-family: var(--font-body);
+            font-size: 0.8rem;
+            color: var(--accent);
+            font-weight: 500;
+        }
+
+        .section-title {
+            font-family: var(--font-display);
+            font-size: 2.5rem;
+            font-weight: 400;
+            letter-spacing: -0.02em;
+        }
+
+        /* About Section */
+        .about {
+            background: var(--bg-secondary);
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            max-width: 1200px;
+        }
+
+        .about-text p {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            font-weight: 300;
+        }
+
+        .about-text p:first-of-type {
+            font-size: 1.2rem;
+            color: var(--text-primary);
+        }
+
+        /* Profile Photo Styles */
+        .about-photo-container {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .profile-photo-wrapper {
+            position: relative;
+            width: 280px;
+            height: 340px;
+            margin-bottom: 1rem;
+        }
+
+        .profile-photo-wrapper::before {
+            content: '';
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            right: -12px;
+            bottom: -12px;
+            border: 2px solid var(--accent);
+            border-radius: 12px;
+            z-index: 0;
+        }
+
+        .profile-photo {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center top;
+            border-radius: 12px;
+            position: relative;
+            z-index: 1;
+            filter: grayscale(20%);
+            transition: filter 0.4s ease, transform 0.4s ease;
+        }
+
+        .profile-photo:hover {
+            filter: grayscale(0%);
+            transform: translate(-4px, -4px);
+        }
+
+        .photo-caption {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            font-style: italic;
+            margin-top: 0.5rem;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+
+        /* Skill Items with Rating */
+        .skill-item {
+            background: var(--bg-tertiary);
+            padding: 1rem 1.25rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            transition: all 0.3s ease;
+            position: relative;
+            cursor: pointer;
+            overflow: hidden;
+            min-height: 54px;
+        }
+
+        .skill-item:hover {
+            border-color: var(--accent);
+            color: var(--text-primary);
+            transform: translateY(-2px);
+            min-height: 100px;
+        }
+
+        .skill-name {
+            display: block;
+            transition: transform 0.3s ease;
+        }
+
+        .skill-rating {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--bg-primary);
+            padding: 0.6rem 1rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            border-top: 1px solid var(--accent);
+        }
+
+        .skill-item:hover .skill-rating {
+            opacity: 1;
+        }
+
+        .rating-bar {
+            display: flex;
+            gap: 4px;
+            margin-bottom: 4px;
+        }
+
+        .rating-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--border);
+        }
+
+        .rating-dot.filled {
+            background: var(--accent);
+            box-shadow: 0 0 6px var(--accent-glow);
+        }
+
+        .rating-label {
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            line-height: 1.3;
+        }
+
+        /* Experience Section */
+        .experience-timeline {
+            max-width: 900px;
+        }
+
+        .experience-category {
+            margin-bottom: 3rem;
+        }
+
+        .category-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .timeline-item {
+            display: grid;
+            grid-template-columns: 200px 1fr;
+            gap: 2rem;
+            padding: 2rem 0;
+            border-bottom: 1px solid var(--border);
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        .timeline-item:nth-child(1) { animation-delay: 0.1s; }
+        .timeline-item:nth-child(2) { animation-delay: 0.2s; }
+        .timeline-item:nth-child(3) { animation-delay: 0.3s; }
+        .timeline-item:nth-child(4) { animation-delay: 0.4s; }
+        .timeline-item:nth-child(5) { animation-delay: 0.5s; }
+        .timeline-item:nth-child(6) { animation-delay: 0.6s; }
+        .timeline-item:nth-child(7) { animation-delay: 0.7s; }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .timeline-date {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-weight: 400;
+        }
+
+        .timeline-content h3 {
+            font-size: 1.1rem;
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+            color: var(--text-primary);
+        }
+
+        .timeline-content .company {
+            color: var(--accent);
+            font-size: 0.9rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .timeline-content p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-weight: 300;
+        }
+
+        .timeline-content ul {
+            list-style: none;
+            margin-top: 0.75rem;
+        }
+
+        .timeline-content li {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            padding-left: 1rem;
+            position: relative;
+            margin-bottom: 0.4rem;
+        }
+
+        .timeline-content li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+        }
+
+        /* Research Section */
+        .research {
+            background: var(--bg-secondary);
+        }
+
+        .research-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+        }
+
+        .research-card {
+            background: var(--bg-primary);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 2rem;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .research-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--gradient-1);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
+        }
+
+        .research-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .research-card:hover {
+            border-color: rgba(0, 212, 170, 0.3);
+            transform: translateY(-4px);
+        }
+
+        .research-status {
+            display: inline-block;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            padding: 0.3rem 0.75rem;
+            border-radius: 20px;
+            margin-bottom: 1rem;
+        }
+
+        .status-published {
+            background: var(--accent-dim);
+            color: var(--accent);
+        }
+
+        .status-progress {
+            background: rgba(255, 193, 7, 0.15);
+            color: #ffc107;
+        }
+
+        .status-submitted {
+            background: rgba(100, 149, 237, 0.15);
+            color: #6495ed;
+        }
+
+        .research-card h3 {
+            font-size: 1.1rem;
+            font-weight: 500;
+            margin-bottom: 0.75rem;
+            line-height: 1.4;
+        }
+
+        .research-card h3 a {
+            color: inherit;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .research-card h3 a:hover {
+            color: var(--accent);
+        }
+
+        .research-card p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-weight: 300;
+            margin-bottom: 1rem;
+        }
+
+        .research-meta {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .research-meta span {
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+
+        .paper-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            padding: 0.5rem 1rem;
+            background: var(--accent-dim);
+            border: 1px solid var(--accent);
+            border-radius: 6px;
+            color: var(--accent);
+            text-decoration: none;
+            font-size: 0.8rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .paper-link:hover {
+            background: var(--accent);
+            color: var(--bg-primary);
+        }
+
+        /* Projects Section */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            max-width: 1200px;
+        }
+
+        .project-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.75rem;
+            transition: all 0.3s ease;
+        }
+
+        .project-card:hover {
+            border-color: rgba(0, 212, 170, 0.3);
+            background: var(--bg-tertiary);
+        }
+
+        .project-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--accent-dim);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .project-card h3 {
+            font-size: 1rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        .project-card h3 a {
+            color: inherit;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .project-card h3 a:hover {
+            color: var(--accent);
+        }
+
+        .project-card p {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            font-weight: 300;
+            margin-bottom: 1rem;
+        }
+
+        .project-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .tag {
+            font-size: 0.7rem;
+            padding: 0.25rem 0.6rem;
+            background: var(--bg-primary);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            color: var(--text-muted);
+        }
+
+        .project-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            margin-top: 0.75rem;
+            color: var(--accent);
+            text-decoration: none;
+            font-size: 0.8rem;
+            font-weight: 500;
+            transition: gap 0.3s ease;
+        }
+
+        .project-link:hover {
+            gap: 0.6rem;
+        }
+
+        /* Awards Section */
+        .awards {
+            background: var(--bg-secondary);
+        }
+
+        .awards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.25rem;
+            max-width: 1200px;
+        }
+
+        .award-item {
+            display: flex;
+            gap: 1rem;
+            padding: 1.25rem;
+            background: var(--bg-primary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .award-item:hover {
+            border-color: var(--accent);
+        }
+
+        .award-icon {
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .award-content h4 {
+            font-size: 0.95rem;
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+        }
+
+        .award-content p {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .credentials-link-wrapper {
+            margin-top: 2.5rem;
+            text-align: center;
+        }
+
+        .credentials-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem 2rem;
+            background: var(--accent-dim);
+            border: 1px solid var(--accent);
+            border-radius: 8px;
+            color: var(--accent);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .credentials-link:hover {
+            background: var(--accent);
+            color: var(--bg-primary);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 212, 170, 0.25);
+        }
+
+        /* Education Section */
+        .education-card {
+            max-width: 700px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 2.5rem;
+        }
+
+        .education-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1.5rem;
+        }
+
+        .education-header h3 {
+            font-size: 1.3rem;
+            font-weight: 500;
+        }
+
+        .education-header p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .sat-score {
+            text-align: right;
+        }
+
+        .sat-score .score {
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--accent);
+        }
+
+        .sat-score .label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .education-details {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .education-details h4 {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+        }
+
+        .education-details p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Contact Section */
+        .contact {
+            background: var(--bg-primary);
+            text-align: center;
+            padding: 8rem 3rem;
+        }
+
+        .contact h2 {
+            font-family: var(--font-display);
+            font-size: 3rem;
+            font-weight: 400;
+            margin-bottom: 1rem;
+        }
+
+        .contact p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+        }
+
+        .contact-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+        }
+
+        .contact-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text-primary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .contact-link:hover {
+            border-color: var(--accent);
+            background: var(--accent-dim);
+        }
+
+        /* Footer */
+        footer {
+            padding: 2rem 3rem;
+            border-top: 1px solid var(--border);
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            nav {
+                padding: 1rem 1.5rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .hero {
+                padding: 6rem 1.5rem 3rem;
+            }
+
+            .hero-stats {
+                flex-wrap: wrap;
+                gap: 2rem;
+            }
+
+            section {
+                padding: 4rem 1.5rem;
+            }
+
+            .about-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .profile-photo-wrapper {
+                width: 220px;
+                height: 280px;
+                margin: 0 auto;
+            }
+
+            .timeline-item {
+                grid-template-columns: 1fr;
+                gap: 0.5rem;
+            }
+
+            .education-header {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .sat-score {
+                text-align: left;
+            }
+
+            .education-details {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-links {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .research-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Scroll animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="#" class="logo">Devadath Pillai</a>
+        <ul class="nav-links">
+            <li><a href="#about">About</a></li>
+            <li><a href="#experience">Experience</a></li>
+            <li><a href="#research">Research</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#awards">Awards</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-content">
+            <p class="hero-label">Machine Learning Researcher & Developer</p>
+            <h1>Building <em>intelligent</em> systems that solve real problems</h1>
+            <p class="hero-description">
+                High school researcher with published work in adversarial AI, training from CMU and MIT, 
+                and ML systems deployed in hospitals. Fluent in seven programming languages with advanced 
+                proficiency in Python.
+            </p>
+            <div class="hero-stats">
+                <div class="stat">
+                    <span class="stat-value">12+</span>
+                    <span class="stat-label">Months Internship</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-value">18+</span>
+                    <span class="stat-label">Months ML Training</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-value">3+</span>
+                    <span class="stat-label">Research Papers</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-value">1540</span>
+                    <span class="stat-label">SAT Score</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="about">
+        <div class="section-header">
+            <span class="section-number">01</span>
+            <h2 class="section-title">About Me</h2>
+        </div>
+        <div class="about-grid">
+            <div class="about-text">
+                <p>
+                    I'm a student at NPS International School in Singapore, pursuing the IB Diploma 
+                    with Higher Level Mathematics Analysis and Approaches, Physics, and Computer Science.
+                </p>
+                <p>
+                    My journey into machine learning began with curiosity and evolved into published research, 
+                    deployed systems, and a deep commitment to solving problems that matter. From developing 
+                    neural networks that help evaluate knee injuries in hospitals to researching adversarial 
+                    robustness in AI systems, I've been fortunate to work on projects with real-world impact.
+                </p>
+                <p>
+                    Beyond technical work, I serve as President of both the Math Club and CS Club, captain 
+                    our Chess Team as a FIDE tournament player, co-founded a digital literacy program 
+                    for elderly citizens, and am CTO of a renewable energy startup with a patent-pending 
+                    AI-powered wind turbine system.
+                </p>
+            </div>
+            <div class="about-photo-container">
+                <div class="profile-photo-wrapper">
+                    <img src="devadath-scrubs.jpeg" alt="Devadath Pillai at PreciX Medical" class="profile-photo">
+                </div>
+                <p class="photo-caption">At PreciX Medical — where ML meets healthcare</p>
+                <div class="skills-grid">
+                    <div class="skill-item" data-rating="5">
+                        <span class="skill-name">Deep Learning</span>
+                        <div class="skill-rating">
+                            <div class="rating-bar">
+                                <span class="rating-dot filled"></span>
+                                <span class="rating-dot filled"></span>
+                                <span class="rating-dot filled"></span>
+                                <span class="rating-dot filled"></span>
+                                <span class="rating-dot filled"></span>
+                            </div>
+                            <span class="rating-label">Expert — GANs, CNNs, LSTMs from scratch</span>
+                        </div>
+                    </div>
+                    <div class="skill-item" data-rating="5">
+                        <span class="skill-name">Computer Vision</span>
+                        <div class="skill-rating">
+                            <div class="rating-bar">
+                                <span class="rating-dot filled"></span>
+                                <span class="rating-dot filled"></span>
+                                <span class="rating-dot filled"></span>
+                                <span class="rating-dot filled"></span>
+                                <span class="rating-dot filled"></span>
+                            </div>
+                            <span class="rating-label">Expert — CMU trained, 5+ projects</span>
+                        </div>
+                    </div>
+                    <div class="skill-item" data-rating="5">
+                        <span class="skill-name">Neural Networks</span>
+                        <div class="skill-rating">
+                            <div class="rating-bar">
+                                <span class="rating-dot filled"></span>
+                                <span class="rating-dot filled"></span>
+                                <span class="rating-dot filled"></span>
+                                <span class="rating-dot filled"></span>
+                                <span class="rating-dot filled"></span>
+                            </div>
+                            <span class="rating-label">Expert — Production deployments</span>
+                        </div>
+                    </div>
+                    <div class="skill-item" data-rating="5">
+                        <span class="skill-name">Python</span>
+                        <div class="skill-rating">
+                            <div class="rating-bar">
+                                <span class="rating-dot filled"></span>
+                                <span class="rating-dot filled"></span>
+                                <span class="rating-dot filled"></span>
+                                <span class="rating-dot filled"></span>
+                                <span class="rating-dot filled"></span>
+                            </div>
+                            <span class="rating-label">Expert — Primary language, 3+ years</span>
+                        </div>
+                    </div>
+                    <div class="skill-item" data-rating="4">
+                        <span class="skill-name">TensorFlow / PyTorch</span>
+                        <div class="skill-rating">
+                            <div class="rating-bar">
+                                <span class="rating-dot filled"></span>
+                                <span class="rating-dot filled"></span>
+                                <span class="rating-dot filled"></span>
+                                <span class="rating-dot filled"></span>
+                                <span class="rating-dot"></span>
+                            </div>
+                            <span class="rating-label">Advanced — Multiple production projects</span>
+                        </div>
+                    </div>
+                    <div class="skill-item" data-rating="4">
+                        <span class="skill-name">NLP & LLMs</span>
+                        <div class="skill-rating">
+                            <div class="rating-bar">
+                                <span class="rating-dot filled"></span>
+                                <span class="rating-dot filled"></span>
+                                <span class="rating-dot filled"></span>
+                                <span class="rating-dot filled"></span>
+                                <span class="rating-dot"></span>
+                            </div>
+                            <span class="rating-label">Advanced — Art History LLM project</span>
+                        </div>
+                    </div>
+                    <div class="skill-item" data-rating="4">
+                        <span class="skill-name">Data Visualization</span>
+                        <div class="skill-rating">
+                            <div class="rating-bar">
+                                <span class="rating-dot filled"></span>
+                                <span class="rating-dot filled"></span>
+                                <span class="rating-dot filled"></span>
+                                <span class="rating-dot filled"></span>
+                                <span class="rating-dot"></span>
+                            </div>
+                            <span class="rating-label">Advanced — 100s of graphics created</span>
+                        </div>
+                    </div>
+                    <div class="skill-item" data-rating="5">
+                        <span class="skill-name">Research & Analysis</span>
+                        <div class="skill-rating">
+                            <div class="rating-bar">
+                                <span class="rating-dot filled"></span>
+                                <span class="rating-dot filled"></span>
+                                <span class="rating-dot filled"></span>
+                                <span class="rating-dot filled"></span>
+                                <span class="rating-dot filled"></span>
+                            </div>
+                            <span class="rating-label">Expert — Published author, 3 papers</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="experience" class="experience">
+        <div class="section-header">
+            <span class="section-number">02</span>
+            <h2 class="section-title">Experience</h2>
+        </div>
+        <div class="experience-timeline">
+            <!-- Internships -->
+            <div class="experience-category">
+                <p class="category-label">Internships</p>
+                <div class="timeline-item">
+                    <div class="timeline-date">Jul 2024</div>
+                    <div class="timeline-content">
+                        <h3>Data Science Intern (Full-Time, On-Site)</h3>
+                        <p class="company">PreciX Medical — Singapore</p>
+                        <p>Biomedical engineering startup developing devices for knee injury evaluation</p>
+                        <ul>
+                            <li>Optimized 2 machine learning models for improved prediction accuracy and performance</li>
+                            <li>Developed custom algorithms using neural network frameworks to solve unique challenges in data analysis</li>
+                            <li>Created hundreds of data visualization graphics translating complex datasets into visual representations</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">Aug 2024 – Jun 2025</div>
+                    <div class="timeline-content">
+                        <h3>Data Science Intern (Part-Time, Hybrid)</h3>
+                        <p class="company">PreciX Medical — Singapore</p>
+                        <p>Continued role following full-time internship</p>
+                        <ul>
+                            <li>Created ML framework with LSTMs to provide custom knee health insights, integrated into customer-facing product reports</li>
+                            <li>Trained models on 100K+ rows of proprietary data; system used in 5 hospitals with US$3M revenue</li>
+                            <li>Developed 3 custom project ideas pitched to A*STAR (Singapore's national research agency) — selected</li>
+                            <li>Created hundreds of data visualization graphics translating complex datasets into comprehensive visual representations</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">Oct 2024 – Feb 2025</div>
+                    <div class="timeline-content">
+                        <h3>Data Science Intern (Remote)</h3>
+                        <p class="company">SquadSync — Dubai</p>
+                        <p>Sports science startup focused on training and recovery applications</p>
+                        <ul>
+                            <li>Developed 4+ on-device ML applications measuring biomechanics and physical fatigue using MediaPipe</li>
+                            <li>Implemented RGB extraction, pose estimation, object detection and tracking in live and pre-recorded video</li>
+                            <li>Developed custom algorithms to solve unique challenges in data analysis and modeling</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ML Programs & Courses -->
+            <div class="experience-category">
+                <p class="category-label">ML Programs & Courses</p>
+                <div class="timeline-item">
+                    <div class="timeline-date">Aug – Nov 2023</div>
+                    <div class="timeline-content">
+                        <h3>Deep Learning Course</h3>
+                        <p class="company">Carnegie Mellon University — USA</p>
+                        <p>Intensive program under mentorship of industrial professionals</p>
+                        <ul>
+                            <li>Built Multilayer Perceptron from scratch</li>
+                            <li>Face classification using CNNs from scratch</li>
+                            <li>Created Generative Adversarial Networks (GANs) from scratch</li>
+                            <li>Analyzed model architectures to improve efficiency and task compatibility</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">Apr – Jul 2023</div>
+                    <div class="timeline-content">
+                        <h3>Computer Vision & ML Course</h3>
+                        <p class="company">Carnegie Mellon School of Computer Science — USA</p>
+                        <ul>
+                            <li>Built panoramic autostitching systems using Python</li>
+                            <li>Smartphone camera calibration and 3D reconstruction</li>
+                            <li>Malaria detection in cells using computer vision</li>
+                            <li>Composed production-grade code converting ML models to web-scale services</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">Sep 2022 – Jan 2023</div>
+                    <div class="timeline-content">
+                        <h3>Data Science & ML Mentorship</h3>
+                        <p class="company">MIT Institute for Data, Systems, and Society (IDSS) — USA</p>
+                        <ul>
+                            <li>Hotel booking cancellation prediction using Logistic Regression, SVM, Decision Trees, and Random Forest</li>
+                            <li>Pima Diabetes statistical analysis and visualization using Python</li>
+                            <li>Scored exceptional marks on all 3 assessed topics</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">Aug – Oct 2022</div>
+                    <div class="timeline-content">
+                        <h3>Artificial Intelligence Course</h3>
+                        <p class="company">HP Enterprise — Singapore</p>
+                        <ul>
+                            <li>Applied AI fundamentals on Microsoft Azure platform</li>
+                            <li>Credit card approval prediction using Azure ML</li>
+                            <li>Received perfect 5/5 presentation score</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">Jul – Aug 2022</div>
+                    <div class="timeline-content">
+                        <h3>Artificial Intelligence Course</h3>
+                        <p class="company">Nanyang Technological University — Singapore</p>
+                        <ul>
+                            <li>Machine learning fundamentals and deep learning concepts</li>
+                            <li>Data modeling and evaluation to find patterns and predict unseen instances</li>
+                            <li>Credit card approval prediction using Logistic Regression and SVM</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="research" class="research">
+        <div class="section-header">
+            <span class="section-number">03</span>
+            <h2 class="section-title">Research</h2>
+        </div>
+        <div class="research-grid">
+            <div class="research-card">
+                <span class="research-status status-published">Published</span>
+                <h3>
+                    <a href="https://nhsjs.com/2025/how-does-training-on-synthetic-data-affect-adversarial-robustness-of-a-supervised-learning-classifier-versus-training-on-real-data/" target="_blank">
+                        How Does Training on Synthetic Data Affect Adversarial Robustness of Machine Learning Models?
+                    </a>
+                </h3>
+                <p>
+                    Investigated how training on synthetic data affects model vulnerability to adversarial attacks. 
+                    Used HuggingFace, Img2Img Pipelines, ResNet-50, and EfficientNet-B0 on datasets of 16K+ real 
+                    and 17K+ AI-generated images.
+                </p>
+                <div class="research-meta">
+                    <span><strong>Publication:</strong> National High School Journal of Science</span>
+                    <span><strong>Co-Author:</strong> Anna Bair, PhD Student in AI, Carnegie Mellon University</span>
+                </div>
+                <a href="https://nhsjs.com/2025/how-does-training-on-synthetic-data-affect-adversarial-robustness-of-a-supervised-learning-classifier-versus-training-on-real-data/" target="_blank" class="paper-link">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                        <polyline points="14 2 14 8 20 8"/>
+                        <line x1="16" y1="13" x2="8" y2="13"/>
+                        <line x1="16" y1="17" x2="8" y2="17"/>
+                        <polyline points="10 9 9 9 8 9"/>
+                    </svg>
+                    Read Paper
+                </a>
+            </div>
+            <div class="research-card">
+                <span class="research-status status-progress">In Progress</span>
+                <h3>Fleet Optimization for Long-Hauler Cargo Delivery Using Deep Learning</h3>
+                <p>
+                    Developing deep learning models to optimize fleet composition and routing for delivery tasks. 
+                    Applying mixed-integer linear programming combined with neural networks to minimize fuel 
+                    consumption and maximize efficiency.
+                </p>
+                <div class="research-meta">
+                    <span><strong>Mentor:</strong> PhD Expert, Harvard University</span>
+                    <span><strong>Methods:</strong> Deep Learning, MILP, Neural Networks</span>
+                </div>
+            </div>
+            <div class="research-card">
+                <span class="research-status status-submitted">Under Review</span>
+                <h3>Computer Vision and LLMs for Art History Education</h3>
+                <p>
+                    Developing an EdTech system using computer vision and large language models to enhance art 
+                    history discourse. Model trained on 500+ artworks from 95 artists, mimicking personas of 
+                    art critics and curators using dialogic teaching methods to increase student autonomy.
+                </p>
+                <div class="research-meta">
+                    <span><strong>Venue:</strong> NTU-NIE Redesigning Pedagogy International Conference 2026</span>
+                    <span><strong>Collaborator:</strong> Art Department, St. Andrews Junior College</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="projects" class="projects">
+        <div class="section-header">
+            <span class="section-number">04</span>
+            <h2 class="section-title">Projects & Impact</h2>
+        </div>
+        <div class="projects-grid">
+            <div class="project-card">
+                <div class="project-icon">🌀</div>
+                <h3>AI-Powered Urban Wind Turbine</h3>
+                <p>
+                    CTO of startup developing city-deployable wind turbines. Built working prototypes using CAD and CFD 
+                    that increased wind speeds by 800%. Patent pending. Secured $150K investment after presenting 
+                    to 8 industry experts at NASA Space Center Houston.
+                </p>
+                <div class="project-tags">
+                    <span class="tag">CFD Simulation</span>
+                    <span class="tag">CAD</span>
+                    <span class="tag">AI Optimization</span>
+                    <span class="tag">Startup</span>
+                </div>
+            </div>
+            <div class="project-card">
+                <div class="project-icon">🧬</div>
+                <h3>Knee Health Neural Network</h3>
+                <p>
+                    LSTM-based framework providing personalized knee health insights for pre and post-surgery 
+                    evaluation. Trained on 100K+ data points, used in 5 hospitals with US$3M revenue impact. 
+                    Research presented to A*STAR.
+                </p>
+                <div class="project-tags">
+                    <span class="tag">LSTM</span>
+                    <span class="tag">Healthcare</span>
+                    <span class="tag">Production ML</span>
+                </div>
+            </div>
+            <div class="project-card">
+                <div class="project-icon">🥊</div>
+                <h3>
+                    <a href="https://muaythai.great-site.net/" target="_blank">Muay Thai Biomechanics Analyzer</a>
+                </h3>
+                <p>
+                    Computer vision application analyzing martial arts form and techniques. Uses pose landmark 
+                    detection to provide feedback reports with heatmaps. Personal project combining athletic 
+                    practice with ML — learned 11+ punches and kicks, mentored 5+ peers.
+                </p>
+                <div class="project-tags">
+                    <span class="tag">Computer Vision</span>
+                    <span class="tag">Pose Estimation</span>
+                    <span class="tag">MediaPipe</span>
+                </div>
+                <a href="https://muaythai.great-site.net/" target="_blank" class="project-link">
+                    View Project →
+                </a>
+            </div>
+            <div class="project-card">
+                <div class="project-icon">👴</div>
+                <h3>Digital Literacy for Elderly</h3>
+                <p>
+                    Co-founded program at St. John's Home for Elderly Persons. Developed 10+ workshops for 80+ 
+                    senior citizens on scam prevention, created senior-friendly OS, refurbished and donated iPads, 
+                    fundraised $2K+. YMCA Award winner.
+                </p>
+                <div class="project-tags">
+                    <span class="tag">Mobile App Dev</span>
+                    <span class="tag">UX Design</span>
+                    <span class="tag">Social Impact</span>
+                </div>
+            </div>
+            <div class="project-card">
+                <div class="project-icon">💻</div>
+                <h3>CodeX CS Club Platform</h3>
+                <p>
+                    As President, built EdTech website with 120+ active users featuring practice questions and 
+                    resources. Tutored 50+ G9-12 students in IGCSE Computer Science. Hosted AI/ML workshops for 
+                    30+ participants.
+                </p>
+                <div class="project-tags">
+                    <span class="tag">React</span>
+                    <span class="tag">Python</span>
+                    <span class="tag">Education</span>
+                </div>
+            </div>
+            <div class="project-card">
+                <div class="project-icon">🔬</div>
+                <h3>Malaria Cell Detection</h3>
+                <p>
+                    Computer vision system for detecting malaria in cell microscopy images. Capstone project 
+                    from CMU Computer Vision course applying deep learning to healthcare diagnostics.
+                </p>
+                <div class="project-tags">
+                    <span class="tag">CNN</span>
+                    <span class="tag">Medical Imaging</span>
+                    <span class="tag">Classification</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="awards" class="awards">
+        <div class="section-header">
+            <span class="section-number">05</span>
+            <h2 class="section-title">Awards & Recognition</h2>
+        </div>
+        <div class="awards-grid">
+            <div class="award-item">
+                <span class="award-icon">🚀</span>
+                <div class="award-content">
+                    <h4>Conrad Challenge Finalist</h4>
+                    <p>NASA Space Center Houston • Apr 2025</p>
+                </div>
+            </div>
+            <div class="award-item">
+                <span class="award-icon">🏆</span>
+                <div class="award-content">
+                    <h4>World Math Championship Finalist</h4>
+                    <p>Top 15 at Imperial College London • Mar 2025</p>
+                </div>
+            </div>
+            <div class="award-item">
+                <span class="award-icon">🥇</span>
+                <div class="award-content">
+                    <h4>ABWA Infinity Math — Winner (Team) & Bronze (Individual)</h4>
+                    <p>Advanced Category • Jan 2025</p>
+                </div>
+            </div>
+            <div class="award-item">
+                <span class="award-icon">🥇</span>
+                <div class="award-content">
+                    <h4>Gold — American Math Olympiad</h4>
+                    <p>Southern Illinois University • Jan 2022</p>
+                </div>
+            </div>
+            <div class="award-item">
+                <span class="award-icon">🥇</span>
+                <div class="award-content">
+                    <h4>Gold — Singapore & Asian Schools Math Olympiad</h4>
+                    <p>SASMO • Jan 2022</p>
+                </div>
+            </div>
+            <div class="award-item">
+                <span class="award-icon">🥇</span>
+                <div class="award-content">
+                    <h4>Gold — Singapore Math Kangaroo Contest</h4>
+                    <p>Jan 2022</p>
+                </div>
+            </div>
+            <div class="award-item">
+                <span class="award-icon">⭐</span>
+                <div class="award-content">
+                    <h4>International Junior Honour Society</h4>
+                    <p>Member • Jan 2022</p>
+                </div>
+            </div>
+            <div class="award-item">
+                <span class="award-icon">🏅</span>
+                <div class="award-content">
+                    <h4>YMCA Youth Award</h4>
+                    <p>Digital Literacy Community Service</p>
+                </div>
+            </div>
+        </div>
+        <div class="credentials-link-wrapper">
+            <a href="https://drive.google.com/drive/folders/199UbtE8vAPni-P7x773AJmP19pluRdNF?usp=drive_link" target="_blank" class="credentials-link">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+                </svg>
+                View All Certificates & Credentials
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                    <polyline points="15 3 21 3 21 9"/>
+                    <line x1="10" y1="14" x2="21" y2="3"/>
+                </svg>
+            </a>
+        </div>
+    </section>
+
+    <section id="education" class="education-section">
+        <div class="section-header">
+            <span class="section-number">06</span>
+            <h2 class="section-title">Education</h2>
+        </div>
+        <div class="education-card">
+            <div class="education-header">
+                <div>
+                    <h3>NPS International School</h3>
+                    <p>Singapore • IB Diploma Programme (Year 2)</p>
+                </div>
+                <div class="sat-score">
+                    <p class="score">1540</p>
+                    <p class="label">SAT Score</p>
+                </div>
+            </div>
+            <div class="education-details">
+                <div>
+                    <h4>Higher Level</h4>
+                    <p>Mathematics Analysis & Approaches, Physics, Computer Science</p>
+                </div>
+                <div>
+                    <h4>Standard Level</h4>
+                    <p>English Language & Literature, Spanish Ab Initio, Economics</p>
+                </div>
+                <div>
+                    <h4>IGCSE Results</h4>
+                    <p>9 A*, 1 A</p>
+                </div>
+                <div>
+                    <h4>SAT Breakdown</h4>
+                    <p>Math: 790 • EBRW: 750</p>
+                </div>
+                <div>
+                    <h4>Leadership</h4>
+                    <p>Chess Team Captain (FIDE Player), Math Club President, CS Club President</p>
+                </div>
+                <div>
+                    <h4>Languages</h4>
+                    <p>7 programming languages • English • Spanish</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="contact">
+        <h2>Let's Connect</h2>
+        <p>I'm always excited to discuss research opportunities, collaborations, or just chat about ML.</p>
+        <div class="contact-links">
+            <a href="mailto:Devadathpillai08@gmail.com" class="contact-link">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="2" y="4" width="20" height="16" rx="2"/>
+                    <path d="M22 6L12 13L2 6"/>
+                </svg>
+                Email
+            </a>
+            <a href="https://www.linkedin.com/in/devadath-pillai/" target="_blank" class="contact-link">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+                    <rect x="2" y="9" width="4" height="12"/>
+                    <circle cx="4" cy="4" r="2"/>
+                </svg>
+                LinkedIn
+            </a>
+            <a href="https://github.com/" target="_blank" class="contact-link">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+                </svg>
+                GitHub
+            </a>
+        </div>
+    </section>
+
+    <footer>
+        <p>© 2025 Devadath Pillai. Built with curiosity and caffeine.</p>
+    </footer>
+
+    <script>
+        // Smooth reveal animations on scroll
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+        // Navbar background on scroll
+        const nav = document.querySelector('nav');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                nav.style.background = 'rgba(10, 10, 11, 0.95)';
+            } else {
+                nav.style.background = 'rgba(10, 10, 11, 0.8)';
+            }
+        });
+    </script>
+</body>
+</html>
